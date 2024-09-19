@@ -20,13 +20,13 @@ After(async function () {
 
 Given("пользователь находится на странице {string}", async function (string) {
   return await this.page.goto(`http://qamid.tmweb.ru${string}`, {
-    setTimeout: 20000,
+    setTimeout: 20000
   });
 });
 
 Given("user is on page {string}", async function (string) {
   return await this.page.goto(`http://qamid.tmweb.ru${string}`, {
-    setTimeout: 20000,
+    setTimeout: 20000
   });
 });
 
