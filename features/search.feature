@@ -1,4 +1,5 @@
 Feature: Tests for GoToTheCinema
+
     Scenario: Booking two tickets tomorrow
         Given пользователь находится на странице "/client/index.php"
         When пользователь переходит на завтрашний день

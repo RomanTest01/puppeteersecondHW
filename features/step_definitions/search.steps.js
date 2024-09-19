@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer");
 const chai = require("chai");
 const expect = chai.expect;
 const { Given, When, Then, Before, After, setDefaultTimeout } = require("cucumber");
-const { putText, getText } = require("../../lib/commands.js");
+const { putText, getText, clickElement } = require("../../lib/commands.js");
 
 setDefaultTimeout(50000);
 Before(async function () {
@@ -18,24 +18,26 @@ After(async function () {
   }
 });
 
-Given("пользователь находится на странице {string}", {timeout:60000}, async function (string) {
+Given("пользователь находится на странице {string}", async function (string) {
+  return await this.page.goto(`http://qamid.tmweb.ru${string}`, {
+    setTimeout: 20000,
+  });
+});
+
+Given("user is on page {string}", async function (string) {
   return await this.page.goto(`http://qamid.tmweb.ru${string}`, {
     setTimeout: 20000,
   });
 });
 
 When(
-  "пользователь переходит на завтрашний день",
-  { timeout: 60000 },
-  async function () {
+  "пользователь переходит на завтрашний день", async function () {
     return await clickElement(this.page, "a:nth-child(2)");
   }
 );
 
 When(
-  "пользователь выбирает время сеанса",
-  { timeout: 60000 },
-  async function () {
+  "пользователь выбирает время сеанса",async function () {
     return await clickElement(
       this.page,
       ".movie-seances__time[href='#'][data-seance-id='217']"
@@ -43,34 +45,24 @@ When(
   }
 );
 When(
-  "пользователь выбирает место в зале",
-  { timeout: 60000 },
-  async function () {
+  "пользователь выбирает место в зале", async function () {
     return await clickElement(this.page, "div:nth-child(5) span:nth-child(7)");
   }
 );
 When(
-  "пользователь выбирает второе место в зале",
-  { timeout: 60000 },
-  async function () {
+  "пользователь выбирает второе место в зале", async function () {
     return await clickElement(this.page, "div:nth-child(5) span:nth-child(8)");
   }
 );
 When(
-  "пользователь нажимает Забронировать",
-  { timeout: 60000 },
-  async function () {
+  "пользователь нажимает Забронировать", async function () {
     return await clickElement(this.page, "button.acceptin-button");
   }
 );
 
 
 
-Given("user is on page {string}", async function (string) {
-  return await this.page.goto(`http://qamid.tmweb.ru${string}`, {
-    setTimeout: 20000,
-  });
-});
+
 When("user choose date", async function () {
   return await clickElement(this.page, "a:nth-child(3)");
 });
@@ -102,9 +94,7 @@ When("user choose already selected seat", async function () {
 
 
 Then(
-  "пользователь видит текст {string}",
-  { timeout: 60000 },
-  async function (string) {
+  "пользователь видит текст {string}",  async function (string) {
     const actual = await getText(this.page, "h2.ticket__check-title");
     const expected = await string;
     expect(actual).contains(expected);
