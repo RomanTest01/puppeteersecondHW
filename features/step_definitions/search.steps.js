@@ -6,7 +6,7 @@ const { putText, getText, clickElement } = require("../../lib/commands.js");
 
 setDefaultTimeout(50000);
 Before(async function () {
-  const browser = await puppeteer.launch({ headless: false, slowMo: 3000 });
+  const browser = await puppeteer.launch({ headless: false, slowMo: 100 });
   const page = await browser.newPage();
   this.browser = browser;
   this.page = page;
